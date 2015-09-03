@@ -5,15 +5,13 @@
   (:import [javax.swing JFrame JPanel JButton JTextField JInternalFrame])
   (:import [javax.swing JFileChooser JButton JFrame])
   (:import [javax.swing.filechooser FileNameExtensionFilter])
-  (:import [java.awt GridLayout])
-
-  (:gen-class))
+  (:import [java.awt GridLayout]))
 
 ;; Scientific analysis functions grouped together in next part
 
 (defn calculate-dx
-  [R N D W]
   "d = log10(R/60N)/log10(12W/106D) where : R=ROP (ft/hr) N=RPM (rev/min) W=WOB (lbs) D=bit size (inch)"
+  [R N D W]
   (/ (Math/log10 (/ R (* 60 N)))
      (Math/log10 (/ (* 12 W) (* 1000 D)))))
 
@@ -22,17 +20,17 @@
   (* (calculate-dx R N D W) (/ MW1 MW2)))
 
 
-(defn c1c2 [C1 C2]
-  "C1 devided by C2 for fluid type indication"
-  (if (zero? C2) 0 (/ C1 C2)))
+(defn c1c2 "C1 devided by C2 for fluid type indication"
+  [C1 C2]
+    (if (zero? C2) 0 (/ C1 C2)))
 
-(def drlg-data (read-dataset "data\\test.las" :header true))
+(def drlg-data (read-dataset "D:/dropbox/geology/geomechanics/Case Study/RA-472/drilling-ascii.csv" :header true))
 (def gas-data (read-dataset "data\\gas.las" :header true))
-(def DEPTH ($ :DEPTH drlg-data))
-(def ROP ($ :ROP drlg-data))
-(def RPM ($ :RPM drlg-data))
-(def WOB ($ :WOB drlg-data))
-(def BIT ($ :BITSIZE drlg-data))
+(def DEPTH ($ 0 drlg-data))
+(def ROP ($ 6 drlg-data))
+(def RPM ($ 5 drlg-data))
+(def WOB ($ 2 drlg-data))
+(def BIT ($ 22 drlg-data))
 
 (def Dx (map #(calculate-dx %1 %2 %3 %4) ROP RPM BIT WOB))
 
@@ -41,8 +39,8 @@
 (def C1C2 (map #(c1c2 %1 %2) C1 C2))
 
 
-(def plot1 (xy-plot DEPTH Dx))
-(def plot2 (area-chart DEPTH Dx))
+(def plot1 (xy-plot Dx DEPTH))
+(def plot2 (area-chart Dx DEPTH))
 (def plot3 (xy-plot DEPTH C1C2))
 (def plot4 (xy-plot DEPTH C1C2))
 
@@ -73,5 +71,5 @@
 ;   (doto (JPanel.) (.add (JTextField.)) (.add (JButton. "test")) )
    (ChartPanel. plot1)
    (ChartPanel. plot2)
-   (ChartPanel. plot3)
-   (ChartPanel. plot4)))
+   (ChartPanel. plot1)
+   (ChartPanel. plot2)))
