@@ -51,16 +51,14 @@
 (add-lines plot1 DEPTH (:fitted lm2))
 
 (defn show-component
-  ([^Component c1 c2 c3 c4]
+  ([^Component c & more]
      "Utility Function to display any Java component in a frame"
      (let [^JFrame frame (JFrame. "Test Window")]
        (doto frame
          (.setDefaultCloseOperation JFrame/DISPOSE_ON_CLOSE)
          (.setLayout (new GridLayout 1 4 4 4))
-         (.add c1)
-         (.add c2)
-         (.add c3)
-         (.add c4)
+         (.add c)
+         (.add more)
          (.setSize (Dimension.  640 480))
          (.setExtendedState (. JFrame MAXIMIZED_BOTH))
          (.setVisible true)))))
