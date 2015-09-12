@@ -24,8 +24,8 @@
   [C1 C2]
     (if (zero? C2) 0 (/ C1 C2)))
 
-(def drlg-data (read-dataset "D:/dropbox/geology/geomechanics/Case Study/RA-472/drilling-ascii.csv" :header true))
-(def gas-data (read-dataset "data\\gas.las" :header true))
+(def drlg-data (read-dataset "/media/smir/Data/refs/geology/geomechanics/Case Study/RA-472/drilling-ascii.csv" :header true))
+;(def gas-data (read-dataset "data\\gas.las" :header true))
 (def DEPTH ($ 0 drlg-data))
 (def ROP ($ 6 drlg-data))
 (def RPM ($ 5 drlg-data))
@@ -34,31 +34,32 @@
 
 (def Dx (map #(calculate-dx %1 %2 %3 %4) ROP RPM BIT WOB))
 
-(def C1 ($ :MUDGAS_C1 gas-data))
-(def C2 ($ :MUDGAS_C2 gas-data))
-(def C1C2 (map #(c1c2 %1 %2) C1 C2))
+;(def C1 ($ :MUDGAS_C1 gas-data))
+;(def C2 ($ :MUDGAS_C2 gas-data))
+;(def C1C2 (map #(c1c2 %1 %2) C1 C2))
 
 
 (def plot1 (xy-plot Dx DEPTH))
 (def plot2 (area-chart Dx DEPTH))
-(def plot3 (xy-plot DEPTH C1C2))
-(def plot4 (xy-plot DEPTH C1C2))
+;(def plot3 (xy-plot DEPTH C1C2))
+;(def plot4 (xy-plot DEPTH C1C2))
 
 (def lm1 (linear-model Dx DEPTH))
 (add-lines plot1 DEPTH (:fitted lm1))
 
-(def lm2 (linear-model Dx DEPTH :intercept false))
-(add-lines plot1 DEPTH (:fitted lm2))
+;(def lm2 (linear-model Dx DEPTH :intercept false))
+;(add-lines plot1 DEPTH (:fitted lm2))
 
 (defn show-component
-  ([^Component c & more]
+  ([^Component c1 c2 c3]
      "Utility Function to display any Java component in a frame"
-     (let [^JFrame frame (JFrame. "Test Window")]
+     (let [frame (JFrame. "Test Window")]
        (doto frame
          (.setDefaultCloseOperation JFrame/DISPOSE_ON_CLOSE)
          (.setLayout (new GridLayout 1 4 4 4))
-         (.add c)
-         (.add more)
+         (.add c1)
+         (.add c2)
+         (.add c3)
          (.setSize (Dimension.  640 480))
          (.setExtendedState (. JFrame MAXIMIZED_BOTH))
          (.setVisible true)))))
@@ -70,4 +71,4 @@
    (ChartPanel. plot1)
    (ChartPanel. plot2)
    (ChartPanel. plot1)
-   (ChartPanel. plot2)))
+   ))
