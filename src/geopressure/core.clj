@@ -24,8 +24,8 @@
   [C1 C2]
     (if (zero? C2) 0 (/ C1 C2)))
 
-(def drlg-data (read-dataset "/media/smir/Data/refs/geology/geomechanics/Case Study/RA-472/drilling-ascii.csv" :header true))
-;(def gas-data (read-dataset "data\\gas.las" :header true))
+(def drlg-data (read-dataset "./data/drilling.csv" :header true))
+(def gas-data (read-dataset "./data/gas.csv" :header true))
 (def DEPTH ($ 0 drlg-data))
 (def ROP ($ 6 drlg-data))
 (def RPM ($ 5 drlg-data))
