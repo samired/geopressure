@@ -25,12 +25,14 @@
     (if (zero? C2) 0 (/ C1 C2)))
 
 (def drlg-data (read-dataset "./data/drilling.csv" :header true))
-(def gas-data (read-dataset "./data/gas.csv" :header true))
-(def DEPTH ($ 0 drlg-data))
-(def ROP ($ 6 drlg-data))
-(def RPM ($ 5 drlg-data))
-(def WOB ($ 2 drlg-data))
-(def BIT ($ 22 drlg-data))
+;(def gas-data (read-dataset "./data/gas.csv" :header true))
+(def DEPTH ($ :DEPTH drlg-data))
+(def ROP ($ :ROP drlg-data))
+(def RPM ($ :RPM drlg-data))
+(def WOB ($ :WOB drlg-data))
+(def BIT ($ :BIT drlg-data))
+(def TG ($ :GAS drlg-data))
+(def Temp ($ :Temp drlg-data))
 
 (def Dx (map #(calculate-dx %1 %2 %3 %4) ROP RPM BIT WOB))
 
@@ -39,19 +41,19 @@
 ;(def C1C2 (map #(c1c2 %1 %2) C1 C2))
 
 
-(def plot1 (xy-plot Dx DEPTH))
-(def plot2 (area-chart Dx DEPTH))
-;(def plot3 (xy-plot DEPTH C1C2))
-;(def plot4 (xy-plot DEPTH C1C2))
+(def plot1 (scatter-plot Dx DEPTH))
+(def plot2 (scatter-plot TG DEPTH))
+(def plot3 (scatter-plot ROP DEPTH))
+(def plot4 (scatter-plot Temp DEPTH))
 
-(def lm1 (linear-model Dx DEPTH))
-(add-lines plot1 DEPTH (:fitted lm1))
+;(def lm1 (linear-model Dx :intercept false))
+;(add-lines plot1 Dx (:fitted lm1))
 
 ;(def lm2 (linear-model Dx DEPTH :intercept false))
 ;(add-lines plot1 DEPTH (:fitted lm2))
 
 (defn show-component
-  ([^Component c1 c2 c3]
+  ([^Component c1 c2 c3 c4]
      "Utility Function to display any Java component in a frame"
      (let [frame (JFrame. "Test Window")]
        (doto frame
@@ -60,6 +62,7 @@
          (.add c1)
          (.add c2)
          (.add c3)
+         (.add c4)
          (.setSize (Dimension.  640 480))
          (.setExtendedState (. JFrame MAXIMIZED_BOTH))
          (.setVisible true)))))
@@ -70,5 +73,7 @@
 ;   (doto (JPanel.) (.add (JTextField.)) (.add (JButton. "test")) )
    (ChartPanel. plot1)
    (ChartPanel. plot2)
-   (ChartPanel. plot1)
+   (ChartPanel. plot3)
+   (ChartPanel. plot4)
    ))
+(-main)
