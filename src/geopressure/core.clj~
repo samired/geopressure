@@ -18,6 +18,10 @@
    (/ MW 8.4)))
 
 
+(defn c1c2 "C1 devided by C2 for fluid type indication"
+  [C1 C2]
+    (if (zero? C2) 0 (/ C1 C2)))
+
 (def data (read-dataset "./data/test-data.csv" :header true))
 
 (def TVD ($ :TVD data))
@@ -30,13 +34,17 @@
 (def QC-DXC ($ :dxc data))
 (def QC-EMW ($ :EMW-ppg data))
 
-(def Dxc (map #(calculate-dxc %1 %2 %3 %4 %5) ROP RPM BIT WOB MW))
+(def Dx (map #(calculate-dx %1 %2 %3 %4 %5) ROP RPM BIT WOB MW))
+
+;(def C1 ($ :MUDGAS_C1 gas-data))
+;(def C2 ($ :MUDGAS_C2 gas-data))
+;(def C1C2 (map #(c1c2 %1 %2) C1 C2))
 
 
-(def plot1 (scatter-plot Dxc  TVD : ))
-(def plot2 (scatter-plot QC-DXC TVD))
-(def plot3 (scatter-plot QC-EMW TVD))
-(def plot4 (scatter-plot OB TVD))
+(def plot1 (scatter-plot Dx DEPTH))
+(def plot2 (scatter-plot TG DEPTH))
+(def plot3 (scatter-plot ROP DEPTH))
+(def plot4 (scatter-plot Temp DEPTH))
 
 ;(def lm1 (linear-model Dx :intercept false))
 ;(add-lines plot1 Dx (:fitted lm1))
