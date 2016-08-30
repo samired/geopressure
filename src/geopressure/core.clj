@@ -33,13 +33,13 @@
 (def Dxc (map #(calculate-dxc %1 %2 %3 %4 %5) ROP RPM BIT WOB MW))
 
 
-(def plot1 (scatter-plot Dxc  TVD : ))
+(def plot1 (scatter-plot Dxc  TVD))
 (def plot2 (scatter-plot QC-DXC TVD))
 (def plot3 (scatter-plot QC-EMW TVD))
 (def plot4 (scatter-plot OB TVD))
 
-;(def lm1 (linear-model Dx :intercept false))
-;(add-lines plot1 Dx (:fitted lm1))
+(def lm1 (linear-model Dxc))
+(add-lines plot1 Dxc (:fitted lm1))
 
 ;(def lm2 (linear-model Dx DEPTH :intercept false))
 ;(add-lines plot1 DEPTH (:fitted lm2))
