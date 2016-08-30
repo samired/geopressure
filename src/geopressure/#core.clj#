@@ -38,7 +38,7 @@
 (def plot3 (scatter-plot QC-EMW TVD))
 (def plot4 (scatter-plot OB TVD))
 
-(def lm1 (linear-model Dxc TVD ROP :intercept false))
+(def lm1 (linear-model Dxc TVD :intercept))
 (add-lines plot1 Dxc (:fitted lm1))
 
 ;(def lm2 (linear-model Dx DEPTH :intercept false))
