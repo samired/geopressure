@@ -62,10 +62,10 @@
 (defn -main []
 
   (show-component
-;   (doto (JPanel.) (.add (JTextField.)) (.add (JButton. "test")) )
+   ;(doto (JPanel.) (.add (JTextField.)) (.add (JButton. "test")) )
    (ChartPanel. plot1)
    (ChartPanel. plot2)
    (ChartPanel. plot3)
    (ChartPanel. plot4)
    ))
-(-main)
+
